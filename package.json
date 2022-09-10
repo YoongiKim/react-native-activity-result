@@ -1,6 +1,6 @@
 {
   "name": "react-native-activity-result-custom",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React Native modules for starting and finishing activities on Android.",
   "main": "index.js",
   "repository": {
