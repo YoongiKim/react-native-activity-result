@@ -1,21 +1,21 @@
 {
-  "name": "react-native-activity-result",
-  "version": "0.1.0-rc.1",
+  "name": "react-native-activity-result-custom",
+  "version": "1.0.0",
   "description": "React Native modules for starting and finishing activities on Android.",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rozele/react-native-activity-result.git"
+    "url": "git+https://github.com/YoongiKim/react-native-activity-result.git"
   },
   "keywords": [
     "React",
     "Native",
     "Android"
   ],
-  "author": "Eric Rozell",
+  "author": "Yoongi Kim",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rozele/react-native-activity-result/issues"
+    "url": "https://github.com/YoongiKim/react-native-activity-result/issues"
   },
-  "homepage": "https://github.com/rozele/react-native-activity-result#readme"
+  "homepage": "https://github.com/YoongiKim/react-native-activity-result#readme"
 }
