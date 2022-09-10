@@ -18,6 +18,8 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 
+import android.content.ComponentName;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -68,10 +70,18 @@ public class ActivityResultModule extends ReactContextBaseJavaModule implements 
   }
 
   @ReactMethod
-  public void startActivityForResult(int requestCode, String action, ReadableMap data, Promise promise) {
+  public void startActivityForResult(int requestCode, ReadableMap data, compPkg, compCls, Promise promise) {
       Activity activity = getReactApplicationContext().getCurrentActivity();
-      Intent intent = new Intent(action);
+
+      ComponentName compName = new ComponentName(compPkg, compCls);
+
+      Intent intent = new Intent(Intent.ACTION_MAIN);
+
       intent.putExtras(Arguments.toBundle(data));
+
+      intent.addCategory(Intent.CATEGORY_LAUNCHER);
+      intent.setComponent(compName);
+
       activity.startActivityForResult(intent, requestCode);
       mPromises.put(requestCode, promise);
   }
@@ -104,17 +114,22 @@ public class ActivityResultModule extends ReactContextBaseJavaModule implements 
   @Override
   public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
       Promise promise = mPromises.get(requestCode);
-      if (resultCode != Activity.RESULT_OK){
-        promise.resolve(null);
-        return;
-      }
-      if (promise != null) {
-          WritableMap result = new WritableNativeMap();
-          result.putInt("resultCode", resultCode);
-          if (data != null) {
-            result.putMap("data", Arguments.makeNativeMap(data.getExtras()));
+
+      if (resultCode == Activity.RESULT_OK) {
+          if (promise != null) {
+              WritableMap result = new WritableNativeMap();
+              result.putInt("resultCode", resultCode);
+              if (data != null) {
+                  result.putMap("data", Arguments.makeNativeMap(data.getExtras()));
+              }
+              promise.resolve(result);
           }
-          promise.resolve(result);
+      } else if (resultCode == Activity.RESULT_CANCELED) {
+          promise.resolve(null);
+          return;
+      } else {
+          promise.resolve(null);
+          return;
       }
   }
 
